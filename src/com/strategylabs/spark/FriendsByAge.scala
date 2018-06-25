@@ -39,14 +39,14 @@ object FriendsByAge {
     val lines = sc.textFile("../spark-scala/fakefriends.csv")
     
     // Use our parseLines function to convert to (age, numFriends) tuples
-    val rdd = lines.map(parseLine)
+    val friendNamesWithAge = lines.map(parseLine)
     
     // Lots going on here...
     // We are starting with an RDD of form (name, numFriends) where age is the KEY and numFriends is the VALUE
     // We use mapValues to convert each numFriends value to a tuple of (numFriends, 1)
     // Then we use reduceByKey to sum up the total numFriends and total instances for each age, by
     // adding together all the numFriends values and 1's respectively.
-    val totalsByName = rdd.mapValues(x => (x, 1)).reduceByKey( (x,y) => (x._1 + y._1, x._2 + y._2))
+    val totalsByName = friendNamesWithAge.mapValues(x => (x, 1)).reduceByKey( (x,y) => (x._1 + y._1, x._2 + y._2))
     
     // So now we have tuples of (age, (totalFriends, totalInstances))
     // To compute the average we divide totalFriends / totalInstances for each age.
