@@ -19,11 +19,15 @@ object WordCount {
     // Read each line of my book into an RDD
     val input = sc.textFile("../spark-scala/book.txt")
     
+    
+    val WordRegex = "\\W+"
     // Split into words separated by a space character
-    val words = input.flatMap(x => x.split(" "))
+    val words = input.flatMap(x => x.split(WordRegex))
+    
+    val lowerWords = words.map(_.toLowerCase)
     
     // Count up the occurrences of each word
-    val wordCounts = words.countByValue()
+    val wordCounts = lowerWords.countByValue()
     
     // Print the results.
     wordCounts.foreach(println)
