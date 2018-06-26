@@ -26,11 +26,16 @@ object WordCount {
     
     val lowerWords = words.map(_.toLowerCase)
     
-    // Count up the occurrences of each word
-    val wordCounts = lowerWords.countByValue()
+    //Tuple every word with the integer 1
+    val wordCount = lowerWords.map(x => (x, 1))
+    //group by key then sum all the 1's to get a count
+    .reduceByKey((x,y) => x + y)
     
+    //Flip the key and value so that it's sorted by count
+    val sortedCount = wordCount.map(x => (x._2, x._1)).sortByKey(false)
+        
     // Print the results.
-    wordCounts.foreach(println)
+    
   }
   
 }
