@@ -32,10 +32,10 @@ object WordCount {
     .reduceByKey((x,y) => x + y)
     
     //Flip the key and value so that it's sorted by count
-    val sortedCount = wordCount.map(x => (x._2, x._1)).sortByKey(false)
+    val sortedCount = wordCount.map(x => (x._2, x._1)).sortByKey()
         
     // Print the results.
-    
+    sortedCount.collect().foreach(entry => println(s" ${entry._2}: ${entry._1}"))
   }
   
 }
