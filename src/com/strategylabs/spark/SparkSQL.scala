@@ -27,10 +27,9 @@ object SparkSQL {
       .builder
       .appName("SparkSQL")
       .master("local[*]")
-      .config("spark.sql.warehouse.dir", "file:///C:/temp") // Necessary to work around a Windows bug in Spark 2.0.0; omit if you're not on Windows.
       .getOrCreate()
     
-    val lines = spark.sparkContext.textFile("../fakefriends.csv")
+    val lines = spark.sparkContext.textFile("../spark-scala/fakefriends.csv")
     val people = lines.map(mapper)
     
     // Infer the schema, and register the DataSet as a table.
